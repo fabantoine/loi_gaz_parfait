@@ -1,16 +1,10 @@
 // Constants (matching your Python code where possible)
-const WIDTH = 1000; // Not directly used for canvas size, but for scaling if needed
+const WIDTH = 1000;
 const HEIGHT = 700;
-const CANVAS_WIDTH = 540; // Actual canvas dimensions
+const CANVAS_WIDTH = 540;
 const CANVAS_HEIGHT = 620;
 const FPS = 60;
 const R = 8.31446261815324; // J/(mol·K)
-
-// Colors (matching your Python code)
-const ACCENT = "#2081e2";
-const TEXT_COLOR = "#1e1e1e";
-const SUBTEXT = "#787d82";
-const PARTICLE_COLOR = "#3c3c3c";
 
 // Get HTML elements
 const canvas = document.getElementById("gasCanvas");
@@ -29,6 +23,14 @@ const displayN = document.getElementById("displayN");
 const displayV = document.getElementById("displayV");
 const displayP = document.getElementById("displayP");
 const resetButton = document.getElementById("resetButton");
+
+// Theme toggle elements
+const themeToggleButton = document.getElementById("themeToggleButton");
+const body = document.body;
+
+// Large pressure display
+const largePressureValueDisplay = document.getElementById("largePressureValue");
+
 
 // Particle class (JavaScript version)
 class Particle {
@@ -72,9 +74,10 @@ class Particle {
     }
 
     draw(ctx) {
+        // Use CSS variable for particle color
         ctx.beginPath();
         ctx.arc(this.x, this.y, this.radius, 0, 2 * Math.PI);
-        ctx.fillStyle = PARTICLE_COLOR;
+        ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--particle-color');
         ctx.fill();
     }
 }
@@ -122,6 +125,9 @@ function updateSimulation() {
     const P = (currentN * R * currentT) / currentV; // in Pascals
     displayP.textContent = formatSi(P, "Pa");
 
+    // Update large pressure display
+    largePressureValueDisplay.innerHTML = `Pression : <span>${formatSi(P, "Pa")}</span>`;
+
     // --- Container for particles (mimicking Pygame's area_rect and container) ---
     const areaRectPadding = 20; // Padding inside the right panel for the container area
     const containerMaxW = CANVAS_WIDTH - 2 * areaRectPadding;
@@ -166,7 +172,7 @@ function updateSimulation() {
     });
 }
 
-// Event Listeners
+// Event Listeners for sliders and reset button
 temperatureSlider.addEventListener("input", updateSimulation);
 molesSlider.addEventListener("input", updateSimulation);
 volumeSlider.addEventListener("input", updateSimulation);
@@ -177,6 +183,20 @@ resetButton.addEventListener("click", () => {
     volumeSlider.value = 0.1;
     updateSimulation(); // Update all displays and particles after reset
 });
+
+// Theme toggle logic
+themeToggleButton.addEventListener("click", () => {
+    body.classList.toggle("dark-theme");
+    body.classList.toggle("light-theme"); // Ensure one is always present
+    if (body.classList.contains("dark-theme")) {
+        themeToggleButton.textContent = "Mode Clair";
+    } else {
+        themeToggleButton.textContent = "Mode Sombre";
+    }
+    // Re-draw canvas immediately after theme change to update colors
+    // We don't call updateSimulation here as it's not changing simulation parameters
+});
+
 
 // Initial setup for particles
 updateSimulation(); // Initialize values and particle count
@@ -189,6 +209,14 @@ function animate(currentTime) {
 
     // Clear canvas
     ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+
+    // Get CSS variables for drawing
+    const rootStyles = getComputedStyle(document.documentElement);
+    const canvasBgColor = rootStyles.getPropertyValue('--canvas-bg-color');
+    const containerBgColor = rootStyles.getPropertyValue('--container-bg-color');
+    const borderColor = rootStyles.getPropertyValue('--border-color');
+    const accentColor = rootStyles.getPropertyValue('--accent-color');
+
 
     // Re-draw container (mimicking your Pygame draw_panel for visualization)
     const areaRectPadding = 20;
@@ -215,16 +243,16 @@ function animate(currentTime) {
     };
 
     // Draw background for visualization area
-    ctx.fillStyle = "#fafcfd"; // (250, 252, 253)
+    ctx.fillStyle = canvasBgColor;
     ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
-    ctx.strokeStyle = "#c8cdce";
+    ctx.strokeStyle = borderColor;
     ctx.lineWidth = 2;
     ctx.strokeRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
 
     // Draw the gas container
-    ctx.fillStyle = "#ebedf1"; // (235, 238, 241)
+    ctx.fillStyle = containerBgColor;
     ctx.fillRect(containerRect.left, containerRect.top, containerRect.width, containerRect.height);
-    ctx.strokeStyle = "#c8cdce"; // (200, 205, 210)
+    ctx.strokeStyle = borderColor;
     ctx.lineWidth = 2;
     ctx.strokeRect(containerRect.left, containerRect.top, containerRect.width, containerRect.height);
 
@@ -244,9 +272,9 @@ function animate(currentTime) {
     const gaugeH = containerMaxH;
     const gaugeX = CANVAS_WIDTH - gaugeW - 10;
     const gaugeY = areaRectPadding;
-    ctx.fillStyle = "#ebedf1"; // (235, 238, 241)
+    ctx.fillStyle = containerBgColor;
     ctx.fillRect(gaugeX, gaugeY, gaugeW, gaugeH);
-    ctx.strokeStyle = "#c8cdce";
+    ctx.strokeStyle = borderColor;
     ctx.strokeRect(gaugeX, gaugeY, gaugeW, gaugeH);
 
     const Pmin_display = 1e2;
@@ -256,7 +284,7 @@ function animate(currentTime) {
     const Pf_norm = (Pf - Math.log10(Pmin_display)) / (Math.log10(Pmax_display) - Math.log10(Pmin_display));
     const fillH = Math.floor(gaugeH * Math.max(0.0, Math.min(1.0, Pf_norm)));
 
-    ctx.fillStyle = ACCENT;
+    ctx.fillStyle = accentColor;
     ctx.fillRect(gaugeX, gaugeY + gaugeH - fillH, gaugeW, fillH);
 
     // Request next frame
