@@ -6,9 +6,13 @@
     <title>Loi des gaz parfaits - Simulation Web</title>
     <link rel="stylesheet" href="style.css">
 </head>
-<body>
+<body class="light-theme"> <!-- Ajout de la classe light-theme par défaut -->
     <div class="container">
         <h1>Loi des gaz parfaits — PV = nRT (Web Version)</h1>
+
+        <div class="theme-switcher">
+            <button id="themeToggleButton">Mode Sombre</button>
+        </div>
 
         <div class="main-layout">
             <div class="left-panel panel">
@@ -37,6 +41,9 @@
             <div class="right-panel panel">
                 <h2>Visualisation</h2>
                 <canvas id="gasCanvas" width="540" height="620"></canvas>
+                <div class="pressure-display-large"> <!-- Conteneur pour la grande pression -->
+                    <span id="largePressureValue">Pression : ? Pa</span>
+                </div>
             </div>
         </div>
     </div>
