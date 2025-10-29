@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loi des gaz parfaits - Simulation Web</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Loi des gaz parfaits — PV = nRT (Web Version)</h1>
+
+        <div class="main-layout">
+            <div class="left-panel panel">
+                <h2>Paramètres</h2>
+                <div class="slider-group">
+                    <label for="temperatureSlider">Température T (<span id="tempValue">300.0</span> K)</label>
+                    <input type="range" id="temperatureSlider" min="50" max="1000" value="300" step="1" class="slider">
+                </div>
+                <div class="slider-group">
+                    <label for="molesSlider">Quantité n (<span id="molesValue">1.000</span> mol)</label>
+                    <input type="range" id="molesSlider" min="0.01" max="10.0" value="1.0" step="0.01" class="slider">
+                </div>
+                <div class="slider-group">
+                    <label for="volumeSlider">Volume V (<span id="volumeValue">0.1000</span> m³)</label>
+                    <input type="range" id="volumeSlider" min="0.0001" max="2.0" value="0.1" step="0.0001" class="slider">
+                </div>
+
+                <h3>Valeurs calculées</h3>
+                <p>Température T: <span id="displayT">300.0 K</span></p>
+                <p>Quantité n: <span id="displayN">1.0000 mol</span></p>
+                <p>Volume V: <span id="displayV">0.10000 m³</span></p>
+                <p>Pression P: <span id="displayP">? Pa</span></p>
+                <button id="resetButton">Réinitialiser (R)</button>
+            </div>
+
+            <div class="right-panel panel">
+                <h2>Visualisation</h2>
+                <canvas id="gasCanvas" width="540" height="620"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
