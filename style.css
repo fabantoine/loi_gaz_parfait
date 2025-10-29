@@ -1,5 +1,5 @@
 /* Définition des variables de couleurs */
-:root {
+:root { /* Light Theme by default */
     --bg-color: #f5f7fa; /* BG_COLOR from Pygame */
     --panel-color: #ffffff; /* white panels */
     --accent-color: #2081e2; /* blue accent */
