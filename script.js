@@ -32,6 +32,11 @@ const body = document.body;
 const largePressureValueDisplay = document.getElementById("largePressureValue");
 
 
+// Helper function to get CSS variable value
+function getCssVariable(name) {
+    return getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+}
+
 // Particle class (JavaScript version)
 class Particle {
     constructor(areaRect) {
@@ -74,10 +79,9 @@ class Particle {
     }
 
     draw(ctx) {
-        // Use CSS variable for particle color
         ctx.beginPath();
         ctx.arc(this.x, this.y, this.radius, 0, 2 * Math.PI);
-        ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--particle-color');
+        ctx.fillStyle = getCssVariable('--particle-color'); // Use helper
         ctx.fill();
     }
 }
@@ -126,7 +130,7 @@ function updateSimulation() {
     displayP.textContent = formatSi(P, "Pa");
 
     // Update large pressure display
-    largePressureValueDisplay.innerHTML = `Pression : <span>${formatSi(P, "Pa")}</span>`;
+    largePressureValueDisplay.innerHTML = `Pression : <span style="color: ${getCssVariable('--accent-color')};">${formatSi(P, "Pa")}</span>`;
 
     // --- Container for particles (mimicking Pygame's area_rect and container) ---
     const areaRectPadding = 20; // Padding inside the right panel for the container area
@@ -186,15 +190,17 @@ resetButton.addEventListener("click", () => {
 
 // Theme toggle logic
 themeToggleButton.addEventListener("click", () => {
+    // Toggle dark-theme class
     body.classList.toggle("dark-theme");
-    body.classList.toggle("light-theme"); // Ensure one is always present
+
+    // Ensure the button text reflects the current state
     if (body.classList.contains("dark-theme")) {
         themeToggleButton.textContent = "Mode Clair";
     } else {
         themeToggleButton.textContent = "Mode Sombre";
     }
-    // Re-draw canvas immediately after theme change to update colors
-    // We don't call updateSimulation here as it's not changing simulation parameters
+    // No need to call updateSimulation here, as it's not changing simulation parameters.
+    // The animate loop will pick up the new CSS variables in the next frame.
 });
 
 
@@ -210,12 +216,11 @@ function animate(currentTime) {
     // Clear canvas
     ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
 
-    // Get CSS variables for drawing
-    const rootStyles = getComputedStyle(document.documentElement);
-    const canvasBgColor = rootStyles.getPropertyValue('--canvas-bg-color');
-    const containerBgColor = rootStyles.getPropertyValue('--container-bg-color');
-    const borderColor = rootStyles.getPropertyValue('--border-color');
-    const accentColor = rootStyles.getPropertyValue('--accent-color');
+    // Get CSS variables for drawing - USE HELPER FUNCTION
+    const canvasBgColor = getCssVariable('--canvas-bg-color');
+    const containerBgColor = getCssVariable('--container-bg-color');
+    const borderColor = getCssVariable('--border-color');
+    const accentColor = getCssVariable('--accent-color');
 
 
     // Re-draw container (mimicking your Pygame draw_panel for visualization)
