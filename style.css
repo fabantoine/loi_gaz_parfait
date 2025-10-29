@@ -1,0 +1,142 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f5f7fa; /* BG_COLOR from Pygame */
+    color: #303030; /* TEXT_COLOR */
+    margin: 0;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 100vh;
+    box-sizing: border-box;
+}
+
+.container {
+    width: 100%;
+    max-width: 1200px; /* Adjust as needed */
+    text-align: center;
+}
+
+h1 {
+    color: #303030;
+    margin-bottom: 30px;
+}
+
+.main-layout {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    flex-wrap: wrap; /* Allow wrapping on smaller screens */
+}
+
+.panel {
+    background-color: #ffffff; /* PANEL_COLOR */
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+    flex-grow: 1; /* Allow panels to grow */
+    min-width: 350px; /* Minimum width for panels */
+}
+
+.left-panel {
+    max-width: 400px;
+}
+
+.right-panel {
+    max-width: 600px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+h2 {
+    color: #303030;
+    margin-top: 0;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+}
+
+/* Sliders styling */
+.slider-group {
+    margin-bottom: 25px;
+    text-align: left;
+}
+
+.slider-group label {
+    display: block;
+    margin-bottom: 8px;
+    color: #787d82; /* SUBTEXT */
+    font-size: 14px;
+    display: flex;
+    justify-content: space-between;
+}
+
+input[type="range"].slider {
+    width: 100%;
+    height: 10px;
+    -webkit-appearance: none;
+    background: #e6e9ec; /* track color */
+    border-radius: 6px;
+    outline: none;
+    transition: opacity .2s;
+}
+
+input[type="range"].slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: #2081e2; /* ACCENT */
+    cursor: pointer;
+    border: 3px solid #fff;
+    box-shadow: 0 0 0 1px #2081e2;
+}
+
+input[type="range"].slider::-moz-range-thumb {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: #2081e2; /* ACCENT */
+    cursor: pointer;
+    border: 3px solid #fff;
+    box-shadow: 0 0 0 1px #2081e2;
+}
+
+/* Info text */
+.left-panel p {
+    text-align: left;
+    margin-bottom: 10px;
+    color: #787d82; /* SUBTEXT */
+    font-size: 15px;
+}
+.left-panel p span {
+    color: #303030; /* TEXT_COLOR */
+    font-weight: bold;
+    float: right;
+}
+
+canvas {
+    border: 2px solid #c8cdce;
+    border-radius: 8px;
+    background-color: #fafcfd; /* light background for canvas */
+    display: block; /* Remove extra space below canvas */
+    margin-top: 20px;
+}
+
+button {
+    background-color: #2081e2; /* ACCENT */
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 20px;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #1a6ac9;
+}
