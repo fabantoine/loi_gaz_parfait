@@ -1,7 +1,38 @@
+/* Définition des variables de couleurs */
+:root {
+    --bg-color: #f5f7fa; /* BG_COLOR from Pygame */
+    --panel-color: #ffffff; /* white panels */
+    --accent-color: #2081e2; /* blue accent */
+    --text-color: #303030;
+    --subtext-color: #787d82;
+    --border-color: #c8cdce;
+    --canvas-bg-color: #fafcfd;
+    --container-bg-color: #ebedf1;
+    --particle-color: #3c3c3c;
+    --slider-track-color: #e6e9ec;
+    --shadow-color: rgba(0, 0, 0, 0.05);
+}
+
+/* Thème sombre */
+body.dark-theme {
+    --bg-color: #2c3e50; /* Darker background */
+    --panel-color: #34495e; /* Darker panels */
+    --accent-color: #3498db; /* Slightly lighter blue accent */
+    --text-color: #ecf0f1; /* Light text */
+    --subtext-color: #bdc3c7; /* Lighter subtext */
+    --border-color: #4a657c;
+    --canvas-bg-color: #39546b;
+    --container-bg-color: #415a70;
+    --particle-color: #ecf0f1; /* Light particles */
+    --slider-track-color: #5d7083;
+    --shadow-color: rgba(0, 0, 0, 0.2);
+}
+
+
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #f5f7fa; /* BG_COLOR from Pygame */
-    color: #303030; /* TEXT_COLOR */
+    background-color: var(--bg-color);
+    color: var(--text-color);
     margin: 0;
     padding: 20px;
     display: flex;
@@ -9,16 +40,17 @@ body {
     align-items: flex-start;
     min-height: 100vh;
     box-sizing: border-box;
+    transition: background-color 0.3s ease, color 0.3s ease; /* Transition pour un changement doux */
 }
 
 .container {
     width: 100%;
-    max-width: 1200px; /* Adjust as needed */
+    max-width: 1200px;
     text-align: center;
 }
 
 h1 {
-    color: #303030;
+    color: var(--text-color);
     margin-bottom: 30px;
 }
 
@@ -26,16 +58,17 @@ h1 {
     display: flex;
     gap: 20px;
     justify-content: center;
-    flex-wrap: wrap; /* Allow wrapping on smaller screens */
+    flex-wrap: wrap;
 }
 
 .panel {
-    background-color: #ffffff; /* PANEL_COLOR */
+    background-color: var(--panel-color);
     border-radius: 12px;
     padding: 20px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
-    flex-grow: 1; /* Allow panels to grow */
-    min-width: 350px; /* Minimum width for panels */
+    box-shadow: 0 4px 8px var(--shadow-color);
+    flex-grow: 1;
+    min-width: 350px;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .left-panel {
@@ -50,11 +83,12 @@ h1 {
 }
 
 h2 {
-    color: #303030;
+    color: var(--text-color);
     margin-top: 0;
     margin-bottom: 20px;
-    border-bottom: 1px solid #eee;
+    border-bottom: 1px solid var(--border-color);
     padding-bottom: 10px;
+    transition: border-color 0.3s ease;
 }
 
 /* Sliders styling */
@@ -66,20 +100,21 @@ h2 {
 .slider-group label {
     display: block;
     margin-bottom: 8px;
-    color: #787d82; /* SUBTEXT */
+    color: var(--subtext-color);
     font-size: 14px;
     display: flex;
     justify-content: space-between;
+    transition: color 0.3s ease;
 }
 
 input[type="range"].slider {
     width: 100%;
     height: 10px;
     -webkit-appearance: none;
-    background: #e6e9ec; /* track color */
+    background: var(--slider-track-color);
     border-radius: 6px;
     outline: none;
-    transition: opacity .2s;
+    transition: background-color 0.3s ease;
 }
 
 input[type="range"].slider::-webkit-slider-thumb {
@@ -88,45 +123,50 @@ input[type="range"].slider::-webkit-slider-thumb {
     width: 16px;
     height: 16px;
     border-radius: 50%;
-    background: #2081e2; /* ACCENT */
+    background: var(--accent-color);
     cursor: pointer;
-    border: 3px solid #fff;
-    box-shadow: 0 0 0 1px #2081e2;
+    border: 3px solid var(--panel-color); /* thumb border */
+    box-shadow: 0 0 0 1px var(--accent-color);
+    transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 input[type="range"].slider::-moz-range-thumb {
     width: 16px;
     height: 16px;
     border-radius: 50%;
-    background: #2081e2; /* ACCENT */
+    background: var(--accent-color);
     cursor: pointer;
-    border: 3px solid #fff;
-    box-shadow: 0 0 0 1px #2081e2;
+    border: 3px solid var(--panel-color);
+    box-shadow: 0 0 0 1px var(--accent-color);
+    transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 /* Info text */
 .left-panel p {
     text-align: left;
     margin-bottom: 10px;
-    color: #787d82; /* SUBTEXT */
+    color: var(--subtext-color);
     font-size: 15px;
+    transition: color 0.3s ease;
 }
 .left-panel p span {
-    color: #303030; /* TEXT_COLOR */
+    color: var(--text-color);
     font-weight: bold;
     float: right;
+    transition: color 0.3s ease;
 }
 
 canvas {
-    border: 2px solid #c8cdce;
+    border: 2px solid var(--border-color);
     border-radius: 8px;
-    background-color: #fafcfd; /* light background for canvas */
-    display: block; /* Remove extra space below canvas */
+    background-color: var(--canvas-bg-color);
+    display: block;
     margin-top: 20px;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
 button {
-    background-color: #2081e2; /* ACCENT */
+    background-color: var(--accent-color);
     color: white;
     border: none;
     padding: 10px 20px;
@@ -138,5 +178,34 @@ button {
 }
 
 button:hover {
-    background-color: #1a6ac9;
+    filter: brightness(110%);
+}
+
+/* Theme switcher button position */
+.theme-switcher {
+    text-align: right;
+    margin-bottom: 20px;
+}
+.theme-switcher button {
+    margin-top: 0;
+    background-color: var(--subtext-color); /* Neutral color for theme button */
+}
+.theme-switcher button:hover {
+    background-color: var(--text-color);
+}
+
+/* Large Pressure Display */
+.pressure-display-large {
+    margin-top: 15px;
+    font-size: 24px; /* Big font size */
+    font-weight: bold;
+    color: var(--text-color);
+    background-color: var(--panel-color); /* Match panel background for consistency */
+    padding: 10px 15px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    transition: color 0.3s ease, background-color 0.3s ease, border-color 0.3s ease;
+}
+.pressure-display-large span {
+    color: var(--accent-color); /* Highlight the value */
 }
